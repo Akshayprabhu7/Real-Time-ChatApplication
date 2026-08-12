@@ -1,3 +1,4 @@
+```
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -518,6 +519,12 @@
             transform: translate(-50%, 0);
         }
 
+
+        /* MOBILE USERNAME BAR */
+        .mobile-user {
+            display: none;
+        }
+
         /* MOBILE */
         @media (max-width: 700px) {
             html, body {
@@ -565,6 +572,67 @@
             .chat-title { gap: 9px; }
             .chat-title h2 { font-size: 15px; }
             .chat-title p { font-size: 10px; }
+
+            /* Username is moved below the header on phones */
+            .mobile-user {
+                display: block;
+                flex: 0 0 auto;
+                padding: 10px 12px 11px;
+                background: #ffffff;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .mobile-user-label {
+                margin-bottom: 6px;
+                color: #64748b;
+                font-size: 9px;
+                font-weight: 800;
+                letter-spacing: .08em;
+            }
+
+            .mobile-user-row {
+                display: flex;
+                align-items: center;
+                gap: 7px;
+                width: 100%;
+            }
+
+            .mobile-user-row input {
+                flex: 1;
+                min-width: 0;
+                width: 100%;
+                height: 42px;
+                padding: 0 12px;
+                border: 1px solid #d1d5db;
+                border-radius: 11px;
+                outline: none;
+                background: #f8fafc;
+                color: var(--text);
+                font-size: 16px;
+            }
+
+            .mobile-user-row input:focus {
+                border-color: #8b5cf6;
+                background: #ffffff;
+                box-shadow: 0 0 0 3px rgba(139,92,246,.10);
+            }
+
+            .mobile-save-btn {
+                width: 42px;
+                height: 42px;
+                flex: 0 0 42px;
+                border: 0;
+                border-radius: 11px;
+                background: linear-gradient(135deg, var(--primary), var(--primary-2));
+                color: white;
+                font-size: 17px;
+                font-weight: 700;
+                cursor: pointer;
+            }
+
+            .mobile-save-btn:active {
+                transform: scale(.94);
+            }
 
             .header-actions { gap: 4px; }
             .header-actions .icon-btn { display: none; }
@@ -712,6 +780,24 @@
             </div>
         </header>
 
+        <!-- Mobile username bar -->
+        <div class="mobile-user">
+            <div class="mobile-user-label">YOUR NAME</div>
+            <div class="mobile-user-row">
+                <input
+                        id="mobileUsername"
+                        type="text"
+                        placeholder="Enter your name"
+                        maxlength="20"
+                        autocomplete="nickname">
+                <button
+                        id="mobileSaveUsername"
+                        class="mobile-save-btn"
+                        type="button"
+                        aria-label="Save name">✓</button>
+            </div>
+        </div>
+
         <section id="messages" class="messages">
             <div id="welcome" class="welcome">
                 <div class="welcome-icon">👋</div>
@@ -754,6 +840,8 @@
     const SERVER_URL = "https://real-time-chatapplication-rodq.onrender.com";
 
     const usernameInput = document.getElementById("username");
+    const mobileUsernameInput = document.getElementById("mobileUsername");
+    const mobileSaveUsername = document.getElementById("mobileSaveUsername");
     const messageInput = document.getElementById("messageInput");
     const messages = document.getElementById("messages");
     const statusDot = document.getElementById("statusDot");
@@ -764,6 +852,9 @@
     const toast = document.getElementById("toast");
 
     usernameInput.value = username;
+    if (mobileUsernameInput) {
+        mobileUsernameInput.value = username;
+    }
 
     const emojis = ["😀","😂","😍","😎","😊","🔥","❤️","👍","👏","🎉","🤝","🙏","💯","🚀","✨","🤣","😄","😉","🤔","😢","😮","😡","💪","🙌","🥳","☕","🌟","💙","💚","💜","😇","😴","🤗","😅"];
 
@@ -791,6 +882,11 @@
 
         username = name;
         localStorage.setItem("chatUsername", username);
+
+        if (mobileUsernameInput) {
+            mobileUsernameInput.value = username;
+        }
+
         showToast("Name saved as " + username);
         focusMessage();
     }
@@ -799,6 +895,11 @@
         localStorage.removeItem("chatUsername");
         username = "";
         usernameInput.value = "";
+
+        if (mobileUsernameInput) {
+            mobileUsernameInput.value = "";
+        }
+
         showToast("Name reset");
         usernameInput.focus();
     }
@@ -967,6 +1068,23 @@
         }, 2200);
     }
 
+    if (mobileSaveUsername) {
+        mobileSaveUsername.addEventListener("click", saveUsername);
+    }
+
+    if (mobileUsernameInput) {
+        mobileUsernameInput.addEventListener("keydown", event => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                saveUsername();
+            }
+        });
+
+        mobileUsernameInput.addEventListener("input", () => {
+            usernameInput.value = mobileUsernameInput.value;
+        });
+    }
+
     messageInput.addEventListener("input", updateCounter);
 
     messageInput.addEventListener("keydown", event => {
@@ -1004,3 +1122,4 @@
 </script>
 </body>
 </html>
+```
