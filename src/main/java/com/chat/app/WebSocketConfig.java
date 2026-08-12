@@ -15,16 +15,14 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
         registry.addEndpoint("/chat")
                 .setAllowedOrigins(
-                        "https://real-time-chatapplication1.onrender.com"
+                        "https://real-time-chatapplication-rodq.onrender.com"
                 )
                 .withSockJS();
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-
         registry.setApplicationDestinationPrefixes("/app");
-
         registry.enableSimpleBroker("/topic");
     }
 }

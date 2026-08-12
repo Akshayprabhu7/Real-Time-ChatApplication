@@ -645,10 +645,9 @@
 
     function connect() {
 
-        const socket =
-            new SockJS(
-                "https://real-time-chatapplication1.onrender.com/chat"
-            );
+       const socket = new SockJS(
+    "https://real-time-chatapplication-rodq.onrender.com/chat"
+);
 
         stompClient =
             StompJs.Stomp.over(socket);
